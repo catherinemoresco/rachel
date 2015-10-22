@@ -3,4 +3,8 @@ import rachelbot
 
 rachel = rachelbot.RachelBot()
 while True:
-    rachel.get_updates()
+    try:
+        rachel.get_updates()
+    except KeyboardInterrupt:
+        print "Goodbye."
+        break
