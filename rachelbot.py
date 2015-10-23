@@ -1,4 +1,5 @@
-import requests, time, re, random, models.message
+import requests, time, re, random
+from  models.message import RachelMessage
 
 class RachelBot:
   def __init__(self, token):
@@ -20,19 +21,18 @@ class RachelBot:
 
     for result in r.json()['result']:
       self.offset = result['update_id'] + 1
-      try:
-        self.process(result['message'])
-      except:
-        pass
+      if result['message']:
+          message = RachelMessage(result['message'])
+          self.process(message)
 
   def process(self, message):
-    message_text = message['text'].split('/Rachel')[-1]
+    message_text = message.text.split('/Rachel')[-1]
     print "Processing message: '" + message_text + "'"
     # Check for greeting
     match = re.search(r'\b(hello|hey|hi)\b', message_text, re.IGNORECASE)
     if match:
-      self.send_message(message['chat']['id'], 
-                self.greet(message['from']['first_name']))
+      self.send_message(message.chat_id, 
+                self.greet(message.sender['first']))
     # Check for a giphy search
     match = re.search('gif', message_text, re.IGNORECASE)
     if match:
@@ -41,15 +41,14 @@ class RachelBot:
       print "Getting photo..."
       gif = self.search_giphy(query_words)
       print "Sending photo..."
-      self.send_photo(message['chat']['id'], gif)
+      self.send_photo(message.chat_id, gif)
     # Check for "I love you"
     match = re.search('i love you', message_text, re.IGNORECASE)
     if match:
-      sender = message['from']
-      if sender['first_name'] == 'Catherine' and sender['last_name'] == 'Moresco':
-        self.send_message(message['chat']['id'], "I love you too, Mom!")
+      if message.sender['first'] == 'Catherine' and message.sender['last'] == 'Moresco':
+        self.send_message(message.chat_id, "I love you too, Mom!")
       else:
-        self.send_message(message['chat']['id'], "Uhh...thanks.")
+        self.send_message(message.chat_id, "Uhh...thanks.")
     #check for OR
     match = re.search(r'\bOR\b', message_text)
     if match:
@@ -57,11 +56,11 @@ class RachelBot:
       if len(terms) < 2:
         return
       else:
-        self.send_message(message['chat']['id'], terms[random.randrange(0, 2)])
+        self.send_message(message.chat_id, terms[random.randrange(0, 2)])
     # Check for affirmation request
     match = re.search(r'right\, rachel\?', message_text, re.IGNORECASE)
     if match:
-      self.send_message(message['chat']['id'], "Right, " + message['from']['first_name'] + "!")
+      self.send_message(message.chat_id, "Right, " + message.sender['first'] + "!")
 
   def send_message(self, chat_id, string):
     r = requests.get(self.REQUEST_URL + \
