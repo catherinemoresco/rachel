@@ -1,5 +1,6 @@
 import requests, time, re, random, config
-from  models.message import RachelMessage
+from models.message import RachelMessage
+import plugins.gif
 
 class RachelBot:
   def __init__(self, token):
@@ -29,12 +30,7 @@ class RachelBot:
     # Check for a giphy search
     match = re.search('gif', message_text, re.IGNORECASE)
     if match:
-      query_words = "+".join(message_text.split(" ")[1:])
-      print query_words
-      print "Getting photo..."
-      gif = self.search_giphy(query_words)
-      print "Sending photo..."
-      self.send_photo(message.chat_id, gif)
+      message.reply_with_photo(plugins.gif.get_gif(message))
     # Check for "I love you"
     match = re.search('i love you', message_text, re.IGNORECASE)
     if match:
@@ -55,30 +51,7 @@ class RachelBot:
     if match:
       message.reply("Right, " + message.sender['first'] + "!")
 
-  def send_photo(self, chat_id, filename):
-    r = requests.post(config.REQUEST_URL + \
-      'sendDocument?chat_id=' + str(chat_id), files={'document': open(config.FILE_PATH + filename, 'rb')})
-    print r.text
-
   # Message generation functions 
   def greet(self, addressee):
     return "Hello, " + addressee + "!"
 
-  def search_giphy(self, query_words):
-    r = requests.get(config.GIPHY_SEARCH_QUERY + query_words + config.GIPHY_KEY)
-    print "Searching giphy..."
-    results = r.json()['data']
-    print "Got gif!"
-    i = random.randrange(0, len(results))
-    the_chosen_gif = results[i]['images']['original']['url']
-    return self.get_file(the_chosen_gif)
-
-  def get_file(self, url):
-    filename = url.split('/')[-1] + '.gif'
-    r = requests.get(url, stream=True)
-    with open(config.FILE_PATH + filename, 'wb') as f:
-      for chunk in r.iter_content(chunk_size=1024):
-        if chunk:
-          f.write(chunk)
-          f.flush
-    return filename
