@@ -1,7 +1,6 @@
-import requests, time, re
-import rachelbot
+import rachelbot, config
 
-rachel = rachelbot.RachelBot()
+rachel = rachelbot.RachelBot(config.BOT_TOKEN)
 while True:
     try:
         rachel.get_updates()

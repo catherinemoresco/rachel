@@ -1,4 +1,4 @@
-class RachelMessage
+class RachelMessage:
 	def init(self, message_json):
 		self.text = message_json.text
 		self.chat_id = message_json['chat']['id']

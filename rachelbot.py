@@ -1,8 +1,8 @@
-import requests, time, re, random
+import requests, time, re, random, models.message
 
 class RachelBot:
-  def __init__(self):
-    self.REQUEST_URL = 'https://api.telegram.org/REDACTED/'
+  def __init__(self, token):
+    self.REQUEST_URL = 'https://api.telegram.org/' + token + '/'
     self.GIPHY_SEARCH_QUERY = 'http://api.giphy.com/v1/gifs/search?q='
     self.GIPHY_KEY = "&api_key=dc6zaTOxFJmzC"
     self.WOLFRAM_APP_ID = "UJ8389-HX5E7YYGVP"
