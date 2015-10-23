@@ -27,6 +27,7 @@ class RachelBot:
 
   def process(self, message):
     message_text = message['text'].split('/Rachel')[-1]
+    print "Processing message: '" + message_text + "'"
     # Check for greeting
     match = re.search(r'\b(hello|hey|hi)\b', message_text, re.IGNORECASE)
     if match:
@@ -57,9 +58,10 @@ class RachelBot:
         return
       else:
         self.send_message(message['chat']['id'], terms[random.randrange(0, 2)])
-
-
-   
+    # Check for affirmation request
+    match = re.search(r'right\, rachel\?', message_text, re.IGNORECASE)
+    if match:
+      self.send_message(message['chat']['id'], "Right, " + message['from']['first_name'] + "!")
 
   def send_message(self, chat_id, string):
     r = requests.get(self.REQUEST_URL + \
