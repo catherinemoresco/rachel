@@ -1,7 +1,7 @@
-import requests, config, random
+import requests, config, random, re
 
 def get_gif(message):
-  query_words = "+".join(message.text.split(" ")[1:])
+  query_words = "+".join((re.sub('gif', '', message.text, count=1)).split(" "))
   return search_giphy(query_words)
 
 def search_giphy(query_words):
@@ -12,7 +12,7 @@ def search_giphy(query_words):
   return get_file(the_chosen_gif)
 
 def get_file(url):
-  filename = url.split('/')[-1] + '.gif'
+  filename = 'gif_from_Rachel.gif'
   r = requests.get(url, stream=True)
   with open(config.FILE_PATH + filename, 'wb') as f:
     for chunk in r.iter_content(chunk_size=1024):
