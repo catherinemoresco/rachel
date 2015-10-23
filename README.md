@@ -12,8 +12,8 @@ And that's it! It's really that simple.
 
 ## Functions
 Rachel is constantly growing, but here's a list of her current talents:
-- `**[hello|hey|hi]**`: send a greeting
-- `**gif [search terms]**`: fetch and send a gif from Giphy
-- `**[this] OR [that]**`: choose between `this` or `that`
-- `**i love you**`: get some love
-- `**right, rachel?**`: get some affirmation
+- `[hello|hey|hi]`: send a greeting
+- `gif [search terms]`: fetch and send a gif from Giphy
+- `[this] OR [that]`: choose between `this` or `that`
+- `i love you`: get some love
+- `right, rachel?`: get some affirmation
