@@ -51,7 +51,7 @@ class RachelBot:
       else:
         self.send_message(message['chat']['id'], "Uhh...thanks.")
     #check for OR
-    match = re.search('OR', message_text)
+    match = re.search(r'\bOR\b', message_text)
     if match:
       terms = message_text.split('OR')
       if len(terms) < 2:
