@@ -7,6 +7,9 @@ class RachelBot:
     self.offset = 0
 
   def get_updates(self):
+    """
+    Make a request for updates to Telegram and process result.
+    """
     try:
       r = requests.get(config.REQUEST_URL+ \
              'getUpdates?offset=' + str(self.offset))
@@ -21,37 +24,58 @@ class RachelBot:
           self.process(message)
 
   def process(self, message):
+    """
+    The main dispatch function.
+    Takes in a message, determines appropriate response, and sends a reply.
+    """
+    if not message.text:
+      return
     message_text = message.text.split('/Rachel')[-1]
     print "Processing message: '" + message_text + "'"
+
     # Check for greeting
     match = re.search(r'\b(hello|hey|hi)\b', message_text, re.IGNORECASE)
     if match:
       message.reply(self.greet(message.sender['first']))
+
+    # Check for "I love you"
+    match = re.search('i love you', message_text, re.IGNORECASE)
+    if match:
+      message.reply(self.love(message.sender))
+
+    #check for OR
+    match = re.search(r'\bOR\b', message_text)
+    if match:
+      message.reply(self.choose(message_text))
+
+    # Check for affirmation request
+    match = re.search(r'right\, rachel\?', message_text, re.IGNORECASE)
+    if match:
+      message.reply(self.affirm(message.sender))
+
     # Check for a giphy search
     match = re.search('gif', message_text, re.IGNORECASE)
     if match:
       message.reply_with_photo(plugins.gif.get_gif(message))
-    # Check for "I love you"
-    match = re.search('i love you', message_text, re.IGNORECASE)
-    if match:
-      if message.sender['first'] == 'Catherine' and message.sender['last'] == 'Moresco':
-        message.reply("I love you too, Mom!")
-      else:
-        message.reply("Uhh...thanks.")
-    #check for OR
-    match = re.search(r'\bOR\b', message_text)
-    if match:
-      terms = message_text.split('OR')
-      if len(terms) < 2:
-        return
-      else:
-        message.reply(terms[random.randrange(0, 2)])
-    # Check for affirmation request
-    match = re.search(r'right\, rachel\?', message_text, re.IGNORECASE)
-    if match:
-      message.reply("Right, " + message.sender['first'] + "!")
 
   # Message generation functions 
+
   def greet(self, addressee):
     return "Hello, " + addressee + "!"
+
+  def love(self, sender):
+      if sender['first'] == 'Catherine' and sender['last'] == 'Moresco':
+        return "I love you too, Mom!"
+      else:
+        return "Uhh...thanks."
+
+  def choose(self, message_text):
+    terms = message_text.split('OR')
+    if len(terms) < 2:
+      return
+    else:
+      return terms[random.randrange(0, 2)]   
+
+  def affirm(self, sender):
+      return "Right, " + sender['first'] + "!"
 
