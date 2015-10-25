@@ -20,3 +20,4 @@ Rachel is constantly growing, but here's a list of her current talents:
 
 #### Plugins (in `plugins` directory):
 - `gif [search terms]`: fetch and send a gif from Giphy
+- `rachel, [question] ?`: search the Wolfram Alpha API
