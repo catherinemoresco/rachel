@@ -23,7 +23,7 @@ def search_giphy(query_words):
   return None
 
 def get_file(url):
-  """ Download fime from link and save"""
+  """ Download file from link and save"""
   filename = 'gif_from_Rachel.gif'
   r = requests.get(url, stream=True)
   with open(config.FILE_PATH + filename, 'wb') as f:

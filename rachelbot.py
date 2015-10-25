@@ -1,6 +1,6 @@
 import requests, time, re, random, config
 from models.message import RachelMessage
-import plugins.gif
+import plugins.gif, plugins.wolfram
 
 class RachelBot:
   def __init__(self, token):
@@ -58,8 +58,13 @@ class RachelBot:
     if match:
       message.reply_with_photo(plugins.gif.get_gif(message))
 
-  # Message generation functions 
+    # Check for a general-knowledge question
+    match = re.search(r'^(rachel\,).*\?$', message_text, re.IGNORECASE)
+    if match:
+      message.reply(plugins.wolfram.get_answer(message))
 
+
+  # Built-in message generation functions 
   def greet(self, addressee):
     return "Hello, " + addressee + "!"
 
