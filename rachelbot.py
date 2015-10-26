@@ -34,33 +34,27 @@ class RachelBot:
     print "Processing message: '" + message_text + "'"
 
     # Check for greeting
-    match = re.search(r'\b(hello|hey|hi)\b', message_text, re.IGNORECASE)
-    if match:
+    if re.search(r'\b(hello|hey|hi)\b', message_text, re.IGNORECASE):
       message.reply(self.greet(message.sender['first']))
 
     # Check for "I love you"
-    match = re.search('i love you', message_text, re.IGNORECASE)
-    if match:
+    if re.search('i love you', message_text, re.IGNORECASE):
       message.reply(self.love(message.sender))
 
     #check for OR
-    match = re.search(r'\bOR\b', message_text)
-    if match:
+    if re.search(r'\bOR\b', message_text):
       message.reply(self.choose(message_text))
 
     # Check for affirmation request
-    match = re.search(r'right\, rachel\?', message_text, re.IGNORECASE)
-    if match:
+    if re.search(r'right\, rachel\?', message_text, re.IGNORECASE):
       message.reply(self.affirm(message.sender))
 
     # Check for a giphy search
-    match = re.search('gif', message_text, re.IGNORECASE)
-    if match:
+    if re.search('gif', message_text, re.IGNORECASE):
       message.reply_with_photo(plugins.gif.get_gif(message))
 
     # Check for a general-knowledge question
-    match = re.search(r'^(rachel\,).*\?$', message_text, re.IGNORECASE)
-    if match:
+    if re.search(r'^(rachel\,).*\?$', message_text, re.IGNORECASE):
       message.reply(plugins.wolfram.get_answer(message))
 
 
