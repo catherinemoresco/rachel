@@ -19,13 +19,12 @@ class RachelBot:
 
     try:
       for result in r.json()['result']:
+        self.offset = result['update_id'] + 1
         if result['message']:
             message = RachelMessage(result['message'])
             self.process(message)
     except:
-      pass
-
-    self.offset += 1
+      self.offset += 1
 
 
   def process(self, message):
