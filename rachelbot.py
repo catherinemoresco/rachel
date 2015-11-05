@@ -25,7 +25,7 @@ class RachelBot:
     except:
       pass
 
-    self.offset = result['update_id'] + 1
+    self.offset += 1
 
 
   def process(self, message):
