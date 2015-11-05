@@ -17,11 +17,16 @@ class RachelBot:
       time.sleep(5)
       return
 
-    for result in r.json()['result']:
-      self.offset = result['update_id'] + 1
-      if result['message']:
-          message = RachelMessage(result['message'])
-          self.process(message)
+    try:
+      for result in r.json()['result']:
+        if result['message']:
+            message = RachelMessage(result['message'])
+            self.process(message)
+    except:
+      pass
+
+    self.offset = result['update_id'] + 1
+
 
   def process(self, message):
     """
@@ -58,7 +63,7 @@ class RachelBot:
       message.reply(plugins.wolfram.get_answer(message))
 
 
-  # Built-in message generation functions 
+  # Built-in me\ssage generation functions 
   def greet(self, addressee):
     return "Hello, " + addressee + "!"
 
