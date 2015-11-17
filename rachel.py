@@ -5,6 +5,7 @@ print "Hello!"
 while True:
     try:
         rachel.get_updates()
+        rachel.autonomous()
     except KeyboardInterrupt:
         print "Goodbye."
         break
