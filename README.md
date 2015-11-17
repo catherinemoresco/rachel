@@ -19,5 +19,11 @@ Rachel is constantly growing, but here's a list of her current talents:
 - `right, rachel?`: get some affirmation
 
 #### Plugins (in `plugins` directory):
+
+##### Integrations
 - `gif [search terms]`: fetch and send a gif from Giphy
 - `rachel, [question]?`: search the Wolfram Alpha API
+
+##### Stateful functions
+- `name (++/--)`: increase or decrease karma of `name`
+- `karma all`: list all karma scores
