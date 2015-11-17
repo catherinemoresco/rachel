@@ -98,13 +98,13 @@ class RachelBot:
 
     # Check for karma increase
     if re.search(r'\+\+$', message_text):
-      message.reply(plugins.karma.increase_karma(self.state, message_text.split('++')[0]))
+      message.reply(plugins.karma.increase_karma(self.state, message_text.split('++')[0].lower()))
       self.save_state()
 
 
     # Check for karma decrease
     if re.search(r'\-\-$', message_text):
-      message.reply(plugins.karma.decrease_karma(self.state, message_text.split('--')[0]))
+      message.reply(plugins.karma.decrease_karma(self.state, message_text.split('--')[0].lower()))
       self.save_state()
 
 
